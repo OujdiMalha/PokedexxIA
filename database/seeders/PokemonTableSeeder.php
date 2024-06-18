@@ -7,25 +7,16 @@ use App\Models\Pokemon;
 use App\Models\Type;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class PokemonTableSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      */
     public function run(): void
     {
-        // Création des types
-        $typeEau = Type::create([
-            'image' => 'eau.png',
-            'nom' => 'Eau',
-            'couleur' => 'Bleu'
-        ]);
-
-        $typeFeu = Type::create([
-            'image' => 'feu.png',
-            'nom' => 'Feu',
-            'couleur' => 'Rouge'
-        ]);
+        // Récupération des types existants
+        $typeEau = Type::where('nom', 'Eau')->first();
+        $typeFeu = Type::where('nom', 'Feu')->first();
 
         // Création des Pokémon
         $pokemons = [
@@ -129,11 +120,6 @@ class DatabaseSeeder extends Seeder
             'pokemon_id' => $pokemons[5]->id,
             'type_id' => $typeFeu->id
         ]);
-
-        // On appelle les seeders dans l'ordre pour éviter les erreurs de clés étrangères
-        $this->call([
-            //UserSeeder::class,
-            PokemonTableSeeder::class,
-        ]);
     }
 }
+

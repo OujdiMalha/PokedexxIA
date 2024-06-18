@@ -1,0 +1,46 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use App\Models\Pokemon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
+class UserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // Création des utilisateurs
+        $users = [
+            User::create([
+                'name' => 'Ash Ketchum',
+                'email' => 'ash@example.com',
+                'password' => Hash::make('password'),
+            ]),
+            User::create([
+                'name' => 'Misty',
+                'email' => 'misty@example.com',
+                'password' => Hash::make('password'),
+            ]),
+            User::create([
+                'name' => 'Brock',
+                'email' => 'brock@example.com',
+                'password' => Hash::make('password'),
+            ]),
+        ];
+
+        // Récupération des Pokémon existants
+        $pokemons = Pokemon::all();
+
+        // Association des Pokémon aux utilisateurs
+        if ($pokemons->count() >= 6) {
+            $users[0]->pokemons()->saveMany([$pokemons[0], $pokemons[1]]); // Ash - 2 Pokémon
+            $users[1]->pokemons()->saveMany([$pokemons[2], $pokemons[3]]); // Misty - 2 Pokémon
+            $users[2]->pokemons()->saveMany([$pokemons[4], $pokemons[5]]); // Brock - 2 Pokémon
+        }
+    }
+}
